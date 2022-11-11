@@ -1,15 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MasterService } from './service/master.service';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent {
-  title = 'ngForMaterial';
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
-  }
+
 
 export interface PeriodicElement {
   name: string;
@@ -30,3 +22,28 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+  title = 'ngForMaterial';
+  displayedColumns: string[] = ['code', 'name', 'email', 'phone'];
+  dataSource = ELEMENT_DATA;
+  empdata: any;
+
+  constructor(private service: MasterService) {
+        
+  }
+  ngOnInit(): void {
+    this.GetALL();
+  }
+
+  GetALL() {
+    this.service.GetEmployee().subscribe(result => {
+      this.empdata = result;
+    })
+  }
+  }
